@@ -1,0 +1,8 @@
+SentinelLab — Análise de autenticação SSH
+Linhas analisadas: 5
+Falhas de autenticação: 5
+Autenticações bem-sucedidas: 0
+
+Falha por IP:
+ 192.0.2.10:5
+    AVISO: limite de 5 falhas atingido.
