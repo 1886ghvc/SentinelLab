@@ -39,6 +39,8 @@ def analyze(path):
     print("\nFalha por IP:")
     for ip, count in failures_by_ip.most_common():
         print(f" {ip}:{count}")
+        if count >= 5: 
+            print("    AVISO: limite de 5 falhas atingido.")       
 
 def main():
     parser = argparse.ArgumentParser(description="Analisa logs SSH.")
