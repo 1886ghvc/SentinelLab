@@ -22,6 +22,16 @@ python src/sentinellab/analyzer.py examples/auth.sample
 
 O arquivo examples/auth.sample está incluído no repositório.
 Nosso exemplo de estudo contém 3 linhas: 2 falhas e 1 sucesso.
+### Limite de falhas por IP
+
+O analisador exibe um aviso quando um IP atinge 5 falhas de autenticação.
+Use `--limit` para escolher outro limite. O menor valor aceito é `1`.
+
+```bash 
+python src/sentinellab/analyzer.py examples/teste-alerta.sample --limit 3
+``` 
+Nesse exemplo, o aviso aparece para cada IP com 3 ou mais falhas.
+
 
 ## Limitações
 
