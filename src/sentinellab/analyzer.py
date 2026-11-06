@@ -4,7 +4,7 @@ import argparse
 
 
 
-def analyze(path):
+def analyze(path, limit=5):
     total = 0
     failures = 0
     successes = 0
@@ -39,16 +39,17 @@ def analyze(path):
     print("\nFalha por IP:")
     for ip, count in failures_by_ip.most_common():
         print(f" {ip}:{count}")
-        if count >= 5: 
-            print("    AVISO: limite de 5 falhas atingido.")       
+        if count >= limit: 
+            print(f"  AVISO: limite de {limit} falhas atingido.")       
 
 def main():
     parser = argparse.ArgumentParser(description="Analisa logs SSH.")
     parser.add_argument("log", type=Path, help="Arquivo de log")
+    parser.add_argument("--limit", type=int, default=5)
     args = parser.parse_args()
-
+    if args.limit < 1: parser.error("--limit deve ser pelo menos 1")
     try:
-        analyze(args.log)
+        analyze(args.log, limit=args.limit)
     except OSError as error:
         parser.exit(1, f"Não foi possível ler o arquivo: {error}\n")
 
