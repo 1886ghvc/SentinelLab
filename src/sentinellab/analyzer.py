@@ -1,10 +1,10 @@
 from collections import Counter
 from pathlib import Path
 import argparse
+import json
 
 
-
-def analyze(path, limit=5):
+def analyze(path, limit=5, as_json=False):
     total = 0
     failures = 0
     successes = 0
@@ -30,7 +30,20 @@ def analyze(path, limit=5):
 
             elif "Accepted password" in line:
                 successes += 1
-
+        if as_json:
+            resultado = {
+                "linhas_analisadas": total,
+                "falhas": failures,
+                "sucessos": successes,
+                "limite": limit,
+                "falhas_por_ip": dict(failures_by_ip),
+                "ips_em_alerta": [
+                ip for ip, count in failures_by_ip.items() if count >= limit
+            ],
+        }
+            print(json.dumps(resultado, indent=2))
+            return
+    
     print("SentinelLab — Análise de autenticação SSH")
     print(f"Linhas analisadas: {total}")
     print(f"Falhas de autenticação: {failures}")
@@ -46,10 +59,11 @@ def main():
     parser = argparse.ArgumentParser(description="Analisa logs SSH.")
     parser.add_argument("log", type=Path, help="Arquivo de log")
     parser.add_argument("--limit", type=int, default=5)
+    parser.add_argument("--json", action="store_true", help="Exibe o relatório em JSON")
     args = parser.parse_args()
     if args.limit < 1: parser.error("--limit deve ser pelo menos 1")
     try:
-        analyze(args.log, limit=args.limit)
+        analyze(args.log, limit=args.limit, as_json=args.json)
     except OSError as error:
         parser.exit(1, f"Não foi possível ler o arquivo: {error}\n")
 
