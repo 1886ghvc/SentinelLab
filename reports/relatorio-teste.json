@@ -1,0 +1,12 @@
+{
+  "linhas_analisadas": 5,
+  "falhas": 5,
+  "sucessos": 0,
+  "limite": 3,
+  "falhas_por_ip": {
+    "192.0.2.10": 5
+  },
+  "ips_em_alerta": [
+    "192.0.2.10"
+  ]
+}
